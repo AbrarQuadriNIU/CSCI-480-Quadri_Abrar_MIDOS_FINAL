@@ -1,0 +1,60 @@
+﻿namespace MID
+{
+    // Refer to module 1 for full opcode descriptions
+    public enum Opcode : byte
+    {
+        INCR = 1,
+        ADDI,
+        ADDR,
+        PUSHR,
+        PUSHI,
+        MOVI,
+        MOVR,
+        MOVMR,
+        MOVRM,
+        MOVMM,
+        PRINTR,
+        PRINTM,
+        PRINTCR,
+        PRINTCM,
+        JMP,
+        JMPI,
+        JMPA,
+        CMPI,
+        CMPR,
+        JLT,
+        JLTI,
+        JLTA,
+        JGT,
+        JGTI,
+        JGTA,
+        JE,
+        JEI,
+        JEA,
+        CALL,
+        CALLM,
+        RET,
+        EXIT,
+        POPR,
+        POPM,
+        SLEEP,
+        INPUT,
+        INPUTC,
+        SETPRIORITY,
+        SETPRIORITYI,
+        MAPSHAREDMEM,
+
+        ACQUIRELOCK,
+        ACQUIRELOCKI,
+        RELEASELOCK,
+        RELEASELOCKI,
+
+        SIGNALEVENT,
+        SIGNALEVENTI,
+        WAITEVENT,
+        WAITEVENTI,
+
+        ALLOC,
+        FREEMEMORY
+    }
+}

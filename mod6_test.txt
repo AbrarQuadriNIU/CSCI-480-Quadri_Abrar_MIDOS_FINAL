@@ -1,0 +1,22 @@
+
+; MODULE 6 TEST — Virtual memory and page faults
+; Expected output:
+;   [MMU] PAGE FAULT messages for high virtual addresses
+;   0         (fresh swapped-in page is zeroed)
+;   54321     (write to virtual page survives swap-out/in)
+
+
+; Access virtual address 76800 (virtual page 300 — beyond 256 physical pages)
+; This MUST trigger a page fault
+movi r1, #76800
+movmr r2, r1        ; read from page 300 — triggers page fault
+printr r2           ; expect 0 (freshly zeroed page)
+
+; Write a value to that same virtual address and read it back
+; The page may be evicted and swapped back in during this — that's the point
+movi r3, #54321
+movrm r1, r3        ; write 54321 to virtual address 76800
+movmr r4, r1        ; read it back
+printr r4           ; expect 54321
+
+exit

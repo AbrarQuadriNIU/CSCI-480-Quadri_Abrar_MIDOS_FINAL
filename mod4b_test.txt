@@ -1,0 +1,11 @@
+setpriorityi #25     ; Boost to ultra-high priority
+movi r1, #1
+mapsharedmem r1, r2  ; Map shared region 1
+
+acquirelocki #1      ; Grab Lock 1 (WILL CAUSE PRIORITY INVERSION!)
+movmr r3, r2         ; Read the data from shared memory
+printr r3            ; Expect 777!
+releaselocki #1
+
+signaleventi #1      ; Unblock Process A
+exit

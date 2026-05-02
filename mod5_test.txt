@@ -1,0 +1,46 @@
+
+; MODULE 5 TEST — Heap allocation
+; Expected output:
+;   1         (alloc succeeded — address is non-zero, we verify by writing/reading)
+;   12345     (data written to heap survives read)
+;   67890     (second allocation works independently)
+;   12345     (first block still intact after second alloc)
+;   1         (re-alloc after free reuses block — address non-zero)
+
+
+; Allocate first block (32 bytes)
+movi r1, #32
+alloc r1, r2        ; r2 = address of block A
+cmpi r2, #0
+jei #9              ; skip if alloc failed
+movi r3, #1
+printr r3           ; expect 1 (alloc succeeded)
+
+; Write to block A and read back
+movi r4, #12345
+movrm r2, r4
+movmr r5, r2
+printr r5           ; expect 12345
+
+; Allocate second block (32 bytes)
+movi r1, #32
+alloc r1, r6        ; r6 = address of block B
+movi r4, #67890
+movrm r6, r4
+movmr r7, r6
+printr r7           ; expect 67890
+
+; Confirm block A is still intact
+movmr r8, r2
+printr r8           ; expect 12345
+
+; Free block A and reallocate — should reuse the same slot
+freememory r2
+movi r1, #32
+alloc r1, r9
+cmpi r9, #0
+jei #9
+movi r3, #1
+printr r3           ; expect 1 (realloc succeeded)
+
+exit

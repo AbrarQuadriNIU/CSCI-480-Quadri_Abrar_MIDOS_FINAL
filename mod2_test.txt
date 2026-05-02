@@ -1,0 +1,31 @@
+﻿; MODULE 2 TEST — Paging and address translation
+; Writes values to addresses near page boundaries and reads
+; them back. If paging is broken, values will be wrong or
+; the OS will crash.
+; Expected output:
+;   111       (write/read near page 1 boundary)
+;   222       (write/read near page 2 boundary)
+;   333       (write/read straddling a boundary)
+
+; Write near end of page 1 (page boundary at 256)
+movi r1, #252
+movi r2, #111
+movrm r1, r2
+movmr r3, r1
+printr r3           ; expect 111
+
+; Write near end of page 2 (page boundary at 512)
+movi r1, #508
+movi r2, #222
+movrm r1, r2
+movmr r3, r1
+printr r3           ; expect 222
+
+; Write an int that straddles a page boundary (bytes at 254,255,256,257)
+movi r1, #254
+movi r2, #333
+movrm r1, r2
+movmr r3, r1
+printr r3           ; expect 333
+
+exit

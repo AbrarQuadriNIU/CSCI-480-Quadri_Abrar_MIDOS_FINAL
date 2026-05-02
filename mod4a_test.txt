@@ -1,0 +1,14 @@
+setpriorityi #5      ; Drop to low priority
+movi r1, #1
+mapsharedmem r1, r2  ; Map shared region 1, address goes into r2
+
+acquirelocki #1      ; Grab Lock 1
+movi r3, #777
+movrm r2, r3         ; Write 777 into shared memory
+
+movi r4, #3
+sleep r4             ; Sleep to allow Process B to wake up and attack the lock
+releaselocki #1
+
+waiteventi #1        ; Wait for Process B to finish
+exit

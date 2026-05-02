@@ -1,0 +1,96 @@
+; MODULE 1 TEST — CPU fundamentals
+
+; --- Arithmetic ---
+movi r1, #10
+movi r2, #5
+addr r1, r2
+printr r1           ; expect 15
+incr r1
+printr r1           ; expect 16
+addi r2, #3
+printr r2           ; expect 8
+
+; --- Memory move variants ---
+movi r3, #500
+movi r4, #999
+movrm r3, r4
+movi r4, #0
+movmr r4, r3
+printr r4           ; expect 999
+movi r5, #504
+movmm r5, r3
+movi r6, #0
+movmr r6, r5
+printr r6           ; expect 999
+
+; --- Character output ---
+movi r1, #65
+printcr r1          ; expect A
+movi r1, #10
+printcr r1          ; newline
+
+; --- JLT: sign flag set, jump skips printr r1 ---
+movi r1, #5
+movi r2, #10
+cmpr r1, r2
+jlti #9
+printr r1           ; MUST NOT PRINT
+printr r2           ; expect 10
+
+; --- JGT: sign flag clear, jump skips printr r1 ---
+cmpr r2, r1
+jgti #9
+printr r1           ; MUST NOT PRINT
+movi r3, #20
+printr r3           ; expect 20
+
+; --- JE: zero flag set, jump skips printr r1 ---
+movi r1, #7
+movi r2, #7
+cmpr r1, r2
+jei #9
+printr r1           ; MUST NOT PRINT
+movi r3, #30
+printr r3           ; expect 30
+
+; --- PASSED banner ---
+movi r1, #80
+printcr r1
+movi r1, #65
+printcr r1
+movi r1, #83
+printcr r1
+movi r1, #83
+printcr r1
+movi r1, #69
+printcr r1
+movi r1, #68
+printcr r1
+movi r1, #10
+printcr r1
+
+; --- Loop: count to 10 using r1 and r2 only ---
+movi r1, #0
+movi r2, #10
+incr r1
+cmpr r1, r2
+jlti #-27
+printr r1           ; expect 10
+
+; --- Stack push/pop using r1 only ---
+movi r1, #42
+pushr r1
+movi r1, #0
+popr r1
+printr r1           ; expect 42
+
+; --- Call/ret: load offset immediately before call, nothing in between ---
+movi r9, #18
+call r9
+printr r4           ; expect 55
+exit
+
+; --- Subroutine ---
+movi r4, #55
+printr r4           ; expect 55
+ret

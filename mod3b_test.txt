@@ -1,0 +1,9 @@
+setpriorityi #10
+movi r1, #100
+movi r2, #115
+incr r1
+printr r1
+cmpr r1, r2
+jlti #-36
+printr r12
+exit
